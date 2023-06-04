@@ -1,6 +1,6 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes } from "styled-components";
 
-import { InterfaceFont, InterfaceColor } from '~type/interface';
+import { InterfaceFont, InterfaceColor } from "~type/interface";
 
 const animationBlink = keyframes`
   0% { background: ${InterfaceColor.INFO} }
@@ -9,8 +9,8 @@ const animationBlink = keyframes`
 `;
 
 export const Building: any = styled.div`
-  width: 60px;
-  height: 60px;
+  width: 100px;
+  height: 24px;
   padding: 10px;
   background: rgba(0, 0, 0, 0.75);
   display: flex;
@@ -19,28 +19,6 @@ export const Building: any = styled.div`
   &:not(.disabled):hover {
     background: #000;
     cursor: pointer;
-  }
-  &.disallow {
-    opacity: 0.5;
-    filter: grayscale(100%);
-  }
-  &.disabled {
-    opacity: 0.25;
-  }
-  &.active {
-    opacity: 1.0;
-    background: ${InterfaceColor.BLUE_DARK};
-  }
-  &.newest::after {
-    position: absolute;
-    content: '';
-    left: -2px;
-    top: -2px;
-    border-radius: 50%;
-    background: ${InterfaceColor.INFO};
-    width: 10px;
-    height: 10px;
-    animation: ${animationBlink} 1s infinite;
   }
 `;
 

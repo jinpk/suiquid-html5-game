@@ -1,16 +1,16 @@
-import cn from 'classnames';
-import React, { useContext, useEffect, useState } from 'react';
+import cn from "classnames";
+import React, { useContext, useEffect, useState } from "react";
 
-import { BUILDINGS } from '~const/world/entities/buildings';
-import { GameContext, useWorldUpdate } from '~lib/interface';
-import { BuildingVariant } from '~type/world/entities/building';
+import { BUILDINGS } from "~const/world/entities/buildings";
+import { GameContext, useWorldUpdate } from "~lib/interface";
+import { BuildingVariant } from "~type/world/entities/building";
 
-import { Building } from './styles';
+import { Building } from "./styles";
 
 type Props = {
-  number: number
-  variant: BuildingVariant
-  isDisabled?: boolean
+  number: number;
+  variant: BuildingVariant;
+  isDisabled?: boolean;
 };
 
 export const ComponentBuilderPreview: React.FC<Props> = ({
@@ -44,8 +44,8 @@ export const ComponentBuilderPreview: React.FC<Props> = ({
       setNewest(false);
     }
     setDisallow(
-      !game.world.builder.isBuildingAllowByTutorial(variant)
-      || !game.world.builder.isBuildingAllowByWave(variant),
+      !game.world.builder.isBuildingAllowByTutorial(variant) ||
+        !game.world.builder.isBuildingAllowByWave(variant)
     );
   });
 
@@ -66,12 +66,14 @@ export const ComponentBuilderPreview: React.FC<Props> = ({
         newest: isNewest,
       })}
     >
-      <Building.Number>{number}</Building.Number>
-      <Building.Preview>
+      {/* // 랜덤 주소, 죽었는지 살았는지 뱃지 표시 */}
+      <Building.Number>0x1d0...3af{number}</Building.Number>
+      <p>DEad</p>
+      {/* <Building.Preview>
         <img src={`assets/sprites/${BUILDINGS[variant].Texture}.png`} />
-      </Building.Preview>
+      </Building.Preview> */}
     </Building>
   );
 };
 
-ComponentBuilderPreview.displayName = 'ComponentBuilderPreview';
+ComponentBuilderPreview.displayName = "ComponentBuilderPreview";

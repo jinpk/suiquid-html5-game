@@ -16,18 +16,20 @@ export const ScreenUI: React.FC = () => (
 
     <Column>
       <HUD>
-        {/* <ComponentWave /> */}
+        <ComponentWave />
         {/* <HUD.Bars>
           <ComponentBarHealth />
           <ComponentBarExperience />
-        </HUD.Bars> */}
-        {/* <ComponentResources /> */}
+        </HUD.Bars>
+        <ComponentResources /> */}
       </HUD>
 
       <ComponentDebug />
     </Column>
 
-    <Column>{/* <ComponentBuilder /> */}</Column>
+    <Column>
+      <ComponentBuilder />
+    </Column>
   </Overlay>
 );
 

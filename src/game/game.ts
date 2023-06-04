@@ -1,23 +1,21 @@
-import Phaser from 'phaser';
+import Phaser from "phaser";
 
-import { AUDIO_VOLUME, CONTAINER_ID, SETTINGS } from '~const/game';
-import { Analytics } from '~game/analytics';
-import { Tutorial } from '~game/tutorial';
-import { shaders } from '~lib/shaders';
-import { eachEntries } from '~lib/system';
-import { Basic } from '~scene/basic';
-import { Gameover } from '~scene/gameover';
-import { Menu } from '~scene/menu';
-import { Screen } from '~scene/screen';
-import { World } from '~scene/world';
-import { IAnalytics } from '~type/analytics';
-import {
-  GameEvents, GameSettings, GameStat, IGame,
-} from '~type/game';
-import { IMenu } from '~type/menu';
-import { IScreen } from '~type/screen';
-import { ITutorial } from '~type/tutorial';
-import { IWorld } from '~type/world';
+import { AUDIO_VOLUME, CONTAINER_ID, SETTINGS } from "~const/game";
+import { Analytics } from "~game/analytics";
+import { Tutorial } from "~game/tutorial";
+import { shaders } from "~lib/shaders";
+import { eachEntries } from "~lib/system";
+import { Basic } from "~scene/basic";
+import { Gameover } from "~scene/gameover";
+import { Menu } from "~scene/menu";
+import { Screen } from "~scene/screen";
+import { World } from "~scene/world";
+import { IAnalytics } from "~type/analytics";
+import { GameEvents, GameSettings, GameStat, IGame } from "~type/game";
+import { IMenu } from "~type/menu";
+import { IScreen } from "~type/screen";
+import { ITutorial } from "~type/tutorial";
+import { IWorld } from "~type/world";
 
 export class Game extends Phaser.Game implements IGame {
   readonly tutorial: ITutorial;
@@ -26,45 +24,73 @@ export class Game extends Phaser.Game implements IGame {
 
   private _isStarted: boolean = false;
 
-  public get isStarted() { return this._isStarted; }
+  public get isStarted() {
+    return this._isStarted;
+  }
 
-  private set isStarted(v) { this._isStarted = v; }
+  private set isStarted(v) {
+    this._isStarted = v;
+  }
 
   private _isPaused: boolean = false;
 
-  public get isPaused() { return this._isPaused; }
+  public get isPaused() {
+    return this._isPaused;
+  }
 
-  private set isPaused(v) { this._isPaused = v; }
+  private set isPaused(v) {
+    this._isPaused = v;
+  }
 
   private _isFinished: boolean = false;
 
-  public get isFinished() { return this._isFinished; }
+  public get isFinished() {
+    return this._isFinished;
+  }
 
-  private set isFinished(v) { this._isFinished = v; }
+  private set isFinished(v) {
+    this._isFinished = v;
+  }
 
   private _menu: IMenu;
 
-  public get menu() { return this._menu; }
+  public get menu() {
+    return this._menu;
+  }
 
-  private set menu(v) { this._menu = v; }
+  private set menu(v) {
+    this._menu = v;
+  }
 
   private _screen: IScreen;
 
-  public get screen() { return this._screen; }
+  public get screen() {
+    return this._screen;
+  }
 
-  private set screen(v) { this._screen = v; }
+  private set screen(v) {
+    this._screen = v;
+  }
 
   private _world: IWorld;
 
-  public get world() { return this._world; }
+  public get world() {
+    return this._world;
+  }
 
-  private set world(v) { this._world = v; }
+  private set world(v) {
+    this._world = v;
+  }
 
   private _settings: Partial<Record<GameSettings, string>> = {};
 
-  public get settings() { return this._settings; }
+  public get settings() {
+    return this._settings;
+  }
 
-  private set settings(v) { this._settings = v; }
+  private set settings(v) {
+    this._settings = v;
+  }
 
   constructor() {
     super({
@@ -75,12 +101,12 @@ export class Game extends Phaser.Game implements IGame {
       width: window.innerWidth,
       height: window.innerHeight,
       parent: CONTAINER_ID,
-      backgroundColor: '#333',
+      backgroundColor: "#333",
       scale: {
         mode: Phaser.Scale.RESIZE,
       },
       physics: {
-        default: 'arcade',
+        default: "arcade",
         arcade: {
           // debug: IS_DEV_MODE,
           fps: 60,
@@ -104,9 +130,12 @@ export class Game extends Phaser.Game implements IGame {
       this.registerShaders();
     });
 
-    this.events.on(`${GameEvents.UPDATE_SETTINGS}.${GameSettings.AUDIO}`, (value: string) => {
-      this.sound.mute = (value === 'off');
-    });
+    this.events.on(
+      `${GameEvents.UPDATE_SETTINGS}.${GameSettings.AUDIO}`,
+      (value: string) => {
+        this.sound.mute = value === "off";
+      }
+    );
 
     if (IS_DEV_MODE) {
       // @ts-ignore
@@ -136,9 +165,7 @@ export class Game extends Phaser.Game implements IGame {
     this.isFinished = false;
     this.isStarted = true;
 
-    if (!this.isSettingEnabled(GameSettings.TUTORIAL)) {
-      this.tutorial.disable();
-    }
+    this.tutorial.disable();
 
     this.world.start();
 
@@ -149,7 +176,7 @@ export class Game extends Phaser.Game implements IGame {
 
     if (!IS_DEV_MODE) {
       window.onbeforeunload = function confirmLeave() {
-        return 'Leave game? No saves!';
+        return "Leave game? No saves!";
       };
     }
   }
@@ -201,9 +228,12 @@ export class Game extends Phaser.Game implements IGame {
 
   public getDifficultyMultiplier() {
     switch (this.settings[GameSettings.DIFFICULTY]) {
-      case 'easy': return 0.8;
-      case 'hard': return 1.3;
-      default: return 1.0;
+      case "easy":
+        return 0.8;
+      case "hard":
+        return 1.3;
+      default:
+        return 1.0;
     }
   }
 
@@ -215,12 +245,13 @@ export class Game extends Phaser.Game implements IGame {
   }
 
   public isSettingEnabled(key: GameSettings) {
-    return (this.settings[key] === 'on');
+    return this.settings[key] === "on";
   }
 
   private readSettings() {
     eachEntries(GameSettings, (key) => {
-      this.settings[key] = localStorage.getItem(`SETTINGS.${key}`) ?? SETTINGS[key].default;
+      this.settings[key] =
+        localStorage.getItem(`SETTINGS.${key}`) ?? SETTINGS[key].default;
     });
   }
 
@@ -237,10 +268,13 @@ export class Game extends Phaser.Game implements IGame {
 
   private writeBestStat(stat: GameStat, record: Nullable<GameStat>) {
     const difficulty = this.settings[GameSettings.DIFFICULTY];
-    const betterStat = Object.keys(stat).reduce((curr, param: keyof GameStat) => ({
-      ...curr,
-      [param]: Math.max(stat[param], record?.[param] ?? 0),
-    }), {});
+    const betterStat = Object.keys(stat).reduce(
+      (curr, param: keyof GameStat) => ({
+        ...curr,
+        [param]: Math.max(stat[param], record?.[param] ?? 0),
+      }),
+      {}
+    );
 
     localStorage.setItem(`BEST_STAT.${difficulty}`, JSON.stringify(betterStat));
   }

@@ -1,46 +1,65 @@
-import EventEmitter from 'events';
+import EventEmitter from "events";
 
-import Phaser from 'phaser';
+import Phaser from "phaser";
 
-import { CONTROL_KEY } from '~const/controls';
-import { DIFFICULTY } from '~const/world/difficulty';
-import { ENEMIES } from '~const/world/entities/enemies';
-import { WAVE_TIMELEFT_ALARM, WAVE_TIMELEFT_AFTER_SKIP } from '~const/world/wave';
-import { registerAudioAssets } from '~lib/assets';
-import { eachEntries } from '~lib/system';
-import { calcGrowth } from '~lib/utils';
-import { NoticeType } from '~type/screen';
-import { TutorialStep } from '~type/tutorial';
-import { IWorld } from '~type/world';
-import { EnemyVariant } from '~type/world/entities/npc/enemy';
-import { IWave, WaveAudio, WaveEvents } from '~type/world/wave';
+import { CONTROL_KEY } from "~const/controls";
+import { DIFFICULTY } from "~const/world/difficulty";
+import { ENEMIES } from "~const/world/entities/enemies";
+import {
+  WAVE_TIMELEFT_ALARM,
+  WAVE_TIMELEFT_AFTER_SKIP,
+} from "~const/world/wave";
+import { registerAudioAssets } from "~lib/assets";
+import { eachEntries } from "~lib/system";
+import { calcGrowth } from "~lib/utils";
+import { NoticeType } from "~type/screen";
+import { TutorialStep } from "~type/tutorial";
+import { IWorld } from "~type/world";
+import { EnemyVariant } from "~type/world/entities/npc/enemy";
+import { IWave, WaveAudio, WaveEvents } from "~type/world/wave";
 
 export class Wave extends EventEmitter implements IWave {
   readonly scene: IWorld;
 
   private _isGoing: boolean = false;
 
-  public get isGoing() { return this._isGoing; }
+  public get isGoing() {
+    return this._isGoing;
+  }
 
-  private set isGoing(v) { this._isGoing = v; }
+  private set isGoing(v) {
+    this._isGoing = v;
+  }
 
   public _isPeaceMode: boolean = false;
 
-  public get isPeaceMode() { return this._isPeaceMode; }
+  public get isPeaceMode() {
+    return this._isPeaceMode;
+  }
 
-  private set isPeaceMode(v) { this._isPeaceMode = v; }
+  private set isPeaceMode(v) {
+    this._isPeaceMode = v;
+  }
 
   public _isNextSeason: boolean = false;
 
-  public get isNextSeason() { return this._isNextSeason; }
+  public get isNextSeason() {
+    return this._isNextSeason;
+  }
 
-  private set isNextSeason(v) { this._isNextSeason = v; }
+  private set isNextSeason(v) {
+    this._isNextSeason = v;
+  }
 
   private _number: number = 1;
 
-  public get number() { return this._number; }
+  public get number() {
+    return this._number;
+  }
 
-  private set number(v) { this._number = v; }
+  private set number(v) {
+    this._number = v;
+  }
 
   private spawnedEnemiesCount: number = 0;
 
@@ -59,7 +78,11 @@ export class Wave extends EventEmitter implements IWave {
 
     this.runTimeleft();
 
-    this.scene.input.keyboard.on(CONTROL_KEY.WAVE_TIMELEFT_AFTER_SKIP, this.skipTimeleft, this);
+    this.scene.input.keyboard.on(
+      CONTROL_KEY.WAVE_TIMELEFT_AFTER_SKIP,
+      this.skipTimeleft,
+      this
+    );
   }
 
   public getTimeleft() {
@@ -91,9 +114,9 @@ export class Wave extends EventEmitter implements IWave {
           this.start();
         }
       } else if (
-        left <= WAVE_TIMELEFT_ALARM
-        && !this.scene.isTimePaused()
-        && !this.alarmInterval
+        left <= WAVE_TIMELEFT_ALARM &&
+        !this.scene.isTimePaused() &&
+        !this.alarmInterval
       ) {
         this.scene.sound.play(WaveAudio.TICK);
         this.alarmInterval = setInterval(() => {
@@ -131,11 +154,12 @@ export class Wave extends EventEmitter implements IWave {
     let pause: number;
 
     if (this.scene.game.tutorial.isDisabled) {
-      pause = calcGrowth(
-        DIFFICULTY.WAVE_PAUSE,
-        DIFFICULTY.WAVE_PAUSE_GROWTH,
-        this.number,
-      ) / this.scene.game.getDifficultyMultiplier();
+      pause =
+        calcGrowth(
+          DIFFICULTY.WAVE_PAUSE,
+          DIFFICULTY.WAVE_PAUSE_GROWTH,
+          this.number
+        ) / this.scene.game.getDifficultyMultiplier();
     } else {
       pause = WAVE_TIMELEFT_ALARM;
     }
@@ -151,7 +175,7 @@ export class Wave extends EventEmitter implements IWave {
     this.enemiesMaxCount = calcGrowth(
       DIFFICULTY.WAVE_ENEMIES_COUNT,
       DIFFICULTY.WAVE_ENEMIES_COUNT_GROWTH,
-      this.number,
+      this.number
     );
 
     if (this.alarmInterval) {
@@ -199,7 +223,10 @@ export class Wave extends EventEmitter implements IWave {
     this.isNextSeason = true;
     this.scene.level.effects.clear(true, true);
 
-    this.scene.game.screen.notice(NoticeType.INFO, `SEASON ${this.getSeason() - 1} COMPLETED`);
+    this.scene.game.screen.notice(
+      NoticeType.INFO,
+      `SEASON ${this.getSeason() - 1} COMPLETED`
+    );
 
     this.scene.game.tutorial.beg(TutorialStep.WAVE_SEASON);
   }
@@ -212,7 +239,7 @@ export class Wave extends EventEmitter implements IWave {
     const pause = calcGrowth(
       DIFFICULTY.WAVE_ENEMIES_SPAWN_PAUSE,
       DIFFICULTY.WAVE_ENEMIES_SPAWN_PAUSE_GROWTH,
-      this.number,
+      this.number
     );
 
     this.nextSpawnTimestamp = this.scene.getTime() + Math.max(pause, 500);
@@ -221,8 +248,8 @@ export class Wave extends EventEmitter implements IWave {
 
   private getEnemyVariant() {
     if (
-      this.number % DIFFICULTY.WAVE_SEASON_LENGTH === 0
-      && this.spawnedEnemiesCount < this.getSeason()
+      this.number % DIFFICULTY.WAVE_SEASON_LENGTH === 0 &&
+      this.spawnedEnemiesCount < this.getSeason()
     ) {
       return EnemyVariant.BOSS;
     }
@@ -232,7 +259,7 @@ export class Wave extends EventEmitter implements IWave {
     eachEntries(ENEMIES, (type, Instance) => {
       if (Instance.SpawnMinWave <= this.number) {
         for (let k = 0; k < Instance.SpawnFrequency; k++) {
-          variants.push(<EnemyVariant> type);
+          variants.push(<EnemyVariant>type);
         }
       }
     });

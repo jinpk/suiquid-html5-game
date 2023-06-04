@@ -1,16 +1,17 @@
-import cn from 'classnames';
-import React, { useContext, useEffect, useState } from 'react';
+import cn from "classnames";
+import React, { useContext, useEffect, useState } from "react";
 
-import { BUILDINGS } from '~const/world/entities/buildings';
-import { GameContext, useWorldUpdate } from '~lib/interface';
-import { BuildingVariant } from '~type/world/entities/building';
+import { BUILDINGS } from "~const/world/entities/buildings";
+import { GameContext, useWorldUpdate } from "~lib/interface";
+import { BuildingVariant } from "~type/world/entities/building";
 
-import { Building } from './styles';
+import { Building } from "./styles";
+import { Icon } from "~interface/hud/resources/styles";
 
 type Props = {
-  number: number
-  variant: BuildingVariant
-  isDisabled?: boolean
+  number: number;
+  variant: BuildingVariant;
+  isDisabled?: boolean;
 };
 
 export const ComponentBuilderPreview: React.FC<Props> = ({
@@ -44,8 +45,8 @@ export const ComponentBuilderPreview: React.FC<Props> = ({
       setNewest(false);
     }
     setDisallow(
-      !game.world.builder.isBuildingAllowByTutorial(variant)
-      || !game.world.builder.isBuildingAllowByWave(variant),
+      !game.world.builder.isBuildingAllowByTutorial(variant) ||
+        !game.world.builder.isBuildingAllowByWave(variant)
     );
   });
 
@@ -66,12 +67,16 @@ export const ComponentBuilderPreview: React.FC<Props> = ({
         newest: isNewest,
       })}
     >
-      <Building.Number>{number}</Building.Number>
-      <Building.Preview>
+      <Building.Number>
+        0x{Math.random().toString(36).substring(2, 4)}...
+        {Math.random().toString(36).substring(2, 6)}
+        <Icon src={"assets/sprites/icons/happy.png"} />
+      </Building.Number>
+      {/* <Building.Preview>
         <img src={`assets/sprites/${BUILDINGS[variant].Texture}.png`} />
-      </Building.Preview>
+      </Building.Preview> */}
     </Building>
   );
 };
 
-ComponentBuilderPreview.displayName = 'ComponentBuilderPreview';
+ComponentBuilderPreview.displayName = "ComponentBuilderPreview";

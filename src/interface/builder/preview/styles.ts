@@ -1,6 +1,6 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes } from "styled-components";
 
-import { InterfaceFont, InterfaceColor } from '~type/interface';
+import { InterfaceFont, InterfaceColor } from "~type/interface";
 
 const animationBlink = keyframes`
   0% { background: ${InterfaceColor.INFO} }
@@ -9,39 +9,14 @@ const animationBlink = keyframes`
 `;
 
 export const Building: any = styled.div`
-  width: 60px;
-  height: 60px;
+  width: 180px;
+  height: 40px;
   padding: 10px;
-  background: rgba(0, 0, 0, 0.75);
+  margin-bottom: 8px;
+  background: rgba(255, 255, 255, 0.3);
   display: flex;
   justify-content: center;
   position: relative;
-  &:not(.disabled):hover {
-    background: #000;
-    cursor: pointer;
-  }
-  &.disallow {
-    opacity: 0.5;
-    filter: grayscale(100%);
-  }
-  &.disabled {
-    opacity: 0.25;
-  }
-  &.active {
-    opacity: 1.0;
-    background: ${InterfaceColor.BLUE_DARK};
-  }
-  &.newest::after {
-    position: absolute;
-    content: '';
-    left: -2px;
-    top: -2px;
-    border-radius: 50%;
-    background: ${InterfaceColor.INFO};
-    width: 10px;
-    height: 10px;
-    animation: ${animationBlink} 1s infinite;
-  }
 `;
 
 Building.Preview = styled.div`
@@ -55,9 +30,9 @@ Building.Preview = styled.div`
 
 Building.Number = styled.div`
   position: absolute;
-  color: #fff;
+  color: #000;
   font-family: ${InterfaceFont.MONOSPACE};
-  font-size: 12px;
+  font-size: 21px;
   line-height: 12px;
   right: 4px;
   top: 4px;

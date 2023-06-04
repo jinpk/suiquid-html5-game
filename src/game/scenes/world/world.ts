@@ -40,6 +40,10 @@ import { IWave, WaveEvents } from "~type/world/wave";
 
 import { WorldUI } from "./ui";
 import { IOPlayer, MovementDirection } from "~type/world/entities/oplayer";
+import { usePlayerStore } from '~lib/playerstore';
+
+const players = usePlayerStore(state => state.players);
+const setAlive = usePlayerStore(state => state.setAlive);
 
 export class World extends Phaser.Scene implements IWorld {
   readonly game: IGame;
@@ -308,7 +312,7 @@ export class World extends Phaser.Scene implements IWorld {
 
     const maxCount = Math.ceil(
       Math.floor(this.level.size * DIFFICULTY.CHEST_SPAWN_FACTOR) /
-        this.game.getDifficultyMultiplier()
+      this.game.getDifficultyMultiplier()
     );
 
     for (let i = 0; i < maxCount; i++) {

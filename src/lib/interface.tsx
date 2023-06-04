@@ -6,7 +6,11 @@ import { IWallet } from '~type/wallet';
 import { Wallet } from '~lib/wallet';
 import { ConnectButton, WalletProvider } from '@suiet/wallet-kit';
 import '@suiet/wallet-kit/style.css';
+import { create } from 'zustand';
 const defaultWallet = new Wallet();
+
+
+
 export const GameContext = createContext<IGame>(null);
 const gameUI = document.getElementById('game-ui');
 

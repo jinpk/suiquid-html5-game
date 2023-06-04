@@ -7,7 +7,6 @@ import { MenuAudio, MenuItem } from "~type/menu";
 
 import { ComponentAbout } from "./content/about";
 import { ComponentControls } from "./content/controls";
-import { ComponentSettings } from "./content/settings";
 import { ComponentWallet } from "./content/wallet";
 import {
   Wrapper,
@@ -19,13 +18,15 @@ import {
   Line,
 } from "./styles";
 import { useWallet } from "@suiet/wallet-kit";
+import Game from "./content/game";
+import { QueryClient, QueryClientProvider, useQuery } from "react-query";
+
+const queryClient = new QueryClient();
 
 export const ComponentMenu: React.FC = () => {
   const game = useContext(GameContext);
 
-  const [currentContent, setCurrentContent] = useState("About");
-
-  const walet = useWallet();
+  const [currentContent, setCurrentContent] = useState("Game");
 
   const menuItems = useMemo<MenuItem[]>(
     () => [
@@ -49,13 +50,9 @@ export const ComponentMenu: React.FC = () => {
           ]
         : [
             {
-              label: "New game",
+              label: "Games",
               onClick: () => {
-                if (!walet.connected) {
-                  setCurrentContent("Wallet");
-                  return alert("Please connect your wallet first:)");
-                }
-                game.startGame();
+                setCurrentContent("Game");
               },
             },
           ]),
@@ -72,11 +69,13 @@ export const ComponentMenu: React.FC = () => {
         onClick: () => setCurrentContent("Wallet"),
       },
     ],
-    [walet]
+    []
   );
 
   const Component = useMemo(() => {
     switch (currentContent) {
+      case "Game":
+        return <Game />;
       case "About":
         return <ComponentAbout />;
       case "Controls":
@@ -94,30 +93,32 @@ export const ComponentMenu: React.FC = () => {
   };
 
   return (
-    <Wrapper>
-      <Sidebar>
-        <Logotype>SUIQUID</Logotype>
-        <Menu>
-          {menuItems.map((item) => (
-            <Menu.Item
-              key={item.label}
-              onClick={() => handleClick(item)}
-              className={cn({
-                active: item.label === currentContent,
-              })}
-            >
-              {item.label}
-            </Menu.Item>
-          ))}
-        </Menu>
-        <Copyright>{COPYRIGHT.join("\n")}</Copyright>
-      </Sidebar>
-      <Line />
-      <Content>
-        <Content.Title>{currentContent}</Content.Title>
-        <Content.Wrapper>{Component}</Content.Wrapper>
-      </Content>
-    </Wrapper>
+    <QueryClientProvider client={queryClient}>
+      <Wrapper>
+        <Sidebar>
+          <Logotype>SUIQUID</Logotype>
+          <Menu>
+            {menuItems.map((item) => (
+              <Menu.Item
+                key={item.label}
+                onClick={() => handleClick(item)}
+                className={cn({
+                  active: item.label === currentContent,
+                })}
+              >
+                {item.label}
+              </Menu.Item>
+            ))}
+          </Menu>
+          <Copyright>{COPYRIGHT.join("\n")}</Copyright>
+        </Sidebar>
+        <Line />
+        <Content>
+          <Content.Title>{currentContent}</Content.Title>
+          <Content.Wrapper>{Component}</Content.Wrapper>
+        </Content>
+      </Wrapper>
+    </QueryClientProvider>
   );
 };
 

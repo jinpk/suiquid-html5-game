@@ -20,6 +20,7 @@ import {
 import Game from "./content/game";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Campaign from "./content/campaign";
+import GameFinished from "./game-finished";
 
 const queryClient = new QueryClient();
 
@@ -126,6 +127,10 @@ export const ComponentMenu: React.FC = () => {
           <Content.Wrapper>{Component}</Content.Wrapper>
         </Content>
       </Wrapper>
+
+      {
+        //  <GameFinished />
+      }
     </QueryClientProvider>
   );
 };

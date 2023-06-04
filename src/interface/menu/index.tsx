@@ -17,9 +17,9 @@ import {
   Sidebar,
   Line,
 } from "./styles";
-import { useWallet } from "@suiet/wallet-kit";
 import Game from "./content/game";
-import { QueryClient, QueryClientProvider, useQuery } from "react-query";
+import { QueryClient, QueryClientProvider } from "react-query";
+import Campaign from "./content/campaign";
 
 const queryClient = new QueryClient();
 
@@ -56,6 +56,11 @@ export const ComponentMenu: React.FC = () => {
               },
             },
           ]),
+
+      {
+        label: "Campaigns",
+        onClick: () => setCurrentContent("Campaign"),
+      },
       {
         label: "About",
         onClick: () => setCurrentContent("About"),
@@ -74,6 +79,8 @@ export const ComponentMenu: React.FC = () => {
 
   const Component = useMemo(() => {
     switch (currentContent) {
+      case "Campaign":
+        return <Campaign />;
       case "Game":
         return <Game />;
       case "About":
@@ -113,6 +120,7 @@ export const ComponentMenu: React.FC = () => {
           <Copyright>{COPYRIGHT.join("\n")}</Copyright>
         </Sidebar>
         <Line />
+
         <Content>
           <Content.Title>{currentContent}</Content.Title>
           <Content.Wrapper>{Component}</Content.Wrapper>

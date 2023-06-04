@@ -2,18 +2,16 @@ import { useWallet } from "@suiet/wallet-kit";
 import React, { useCallback, useContext, useMemo } from "react";
 import { GameContext } from "~lib/interface";
 import { GameItem, GameItemContent, GameItemImage, GameList } from "./styles";
-import { JsonRpcProvider, devnetConnection } from "@mysten/sui.js";
-import { SMART_CONTRACT_ADDRESS } from "~lib/contract";
+import { SMART_CONTRACT_ADDRESS, suiProvider } from "~lib/contract";
 import { useQuery } from "react-query";
 import { SuiquidAdVector } from "./types";
-const provider = new JsonRpcProvider(devnetConnection);
 
 export default function Game() {
   const game = useContext(GameContext);
   const wallet = useWallet();
 
   const { isLoading, error, data } = useQuery("games", () =>
-    provider.getObject({
+    suiProvider.getObject({
       id: SMART_CONTRACT_ADDRESS,
       options: {
         showType: true,

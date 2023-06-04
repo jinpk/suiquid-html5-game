@@ -16,7 +16,7 @@ export const ScreenUI: React.FC = () => (
 
     <Column>
       <HUD>
-        <ComponentWave />
+        {/* <ComponentWave /> */}
         {/* <HUD.Bars>
           <ComponentBarHealth />
           <ComponentBarExperience />

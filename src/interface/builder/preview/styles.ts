@@ -9,17 +9,14 @@ const animationBlink = keyframes`
 `;
 
 export const Building: any = styled.div`
-  width: 100px;
-  height: 24px;
+  width: 180px;
+  height: 40px;
   padding: 10px;
-  background: rgba(0, 0, 0, 0.75);
+  margin-bottom: 8px;
+  background: rgba(255, 255, 255, 0.3);
   display: flex;
   justify-content: center;
   position: relative;
-  &:not(.disabled):hover {
-    background: #000;
-    cursor: pointer;
-  }
 `;
 
 Building.Preview = styled.div`
@@ -33,9 +30,9 @@ Building.Preview = styled.div`
 
 Building.Number = styled.div`
   position: absolute;
-  color: #fff;
+  color: #000;
   font-family: ${InterfaceFont.MONOSPACE};
-  font-size: 12px;
+  font-size: 21px;
   line-height: 12px;
   right: 4px;
   top: 4px;

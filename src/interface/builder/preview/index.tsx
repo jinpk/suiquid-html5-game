@@ -6,6 +6,7 @@ import { GameContext, useWorldUpdate } from "~lib/interface";
 import { BuildingVariant } from "~type/world/entities/building";
 
 import { Building } from "./styles";
+import { Icon } from "~interface/hud/resources/styles";
 
 type Props = {
   number: number;
@@ -66,9 +67,11 @@ export const ComponentBuilderPreview: React.FC<Props> = ({
         newest: isNewest,
       })}
     >
-      {/* // 랜덤 주소, 죽었는지 살았는지 뱃지 표시 */}
-      <Building.Number>0x1d0...3af{number}</Building.Number>
-      <p>DEad</p>
+      <Building.Number>
+        0x{Math.random().toString(36).substring(2, 4)}...
+        {Math.random().toString(36).substring(2, 6)}
+        <Icon src={"assets/sprites/icons/happy.png"} />
+      </Building.Number>
       {/* <Building.Preview>
         <img src={`assets/sprites/${BUILDINGS[variant].Texture}.png`} />
       </Building.Preview> */}

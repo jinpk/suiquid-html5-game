@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { InterfaceFont } from '~type/interface';
+import { InterfaceFont } from "~type/interface";
 
 export const Wrapper = styled.div`
   font-family: ${InterfaceFont.PIXEL};
@@ -9,6 +9,8 @@ export const Wrapper = styled.div`
 `;
 
 export const Icon = styled.img`
+  width: 26px;
+  padding-left: 4px;
 `;
 
 export const State: any = styled.div`

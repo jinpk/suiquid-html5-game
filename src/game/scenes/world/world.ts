@@ -144,8 +144,7 @@ export class World extends Phaser.Scene implements IWorld {
 
     this.addEntityGroups();
     this.addPlayer();
-    // this.addPlayers(50);
-    this.addChests();
+    this.addPlayers(12);
     this.addZoomControl();
 
     this.level.hideTiles();
@@ -290,21 +289,11 @@ export class World extends Phaser.Scene implements IWorld {
   private addPlayers(Count: integer) {
     const positions = this.level.readSpawnPositions(SpawnTarget.PLAYER);
     for (let idx = 0; idx < Count; idx++) {
-      this.players.push(
-        new OPlayer(this, {
-          // These are the AI-controlled players
-          positionAtMatrix: Phaser.Utils.Array.GetRandom(positions),
-        })
-      );
+      const oplayer = new OPlayer(this, {
+        positionAtMatrix: Phaser.Utils.Array.GetRandom(positions),
+      });
+      this.players.push(oplayer);
     }
-    // this.cameras.main.resetFX();
-    // this.cameras.main.startFollow(this.player);
-    // this.cameras.main.setZoom(1.3);
-    // this.cameras.main.zoomTo(1.0, 100);
-
-    // this.player.live.on(LiveEvents.DEAD, () => {
-    //   this.game.finishGame();
-    // });
   }
 
   private addChests() {

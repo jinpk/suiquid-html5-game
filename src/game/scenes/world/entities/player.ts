@@ -16,7 +16,7 @@ import { aroundPosition, calcGrowth } from "~lib/utils";
 import { NoticeType } from "~type/screen";
 import { IWorld } from "~type/world";
 import { IAssistant } from "~type/world/entities/npc/assistant";
-import { IEnemy } from "~type/world/entities/npc/enemy";
+import { EnemyAudio, IEnemy, IEnemyTarget } from "~type/world/entities/npc/enemy";
 import {
   PlayerTexture,
   MovementDirection,
@@ -26,6 +26,8 @@ import {
 } from "~type/world/entities/player";
 import { BiomeType, TileType } from "~type/world/level";
 import { WaveEvents } from "~type/world/wave";
+import { OPlayer } from "./oplayer";
+import { IBuilding } from "~type/world/entities/building";
 
 export class Player extends Sprite implements IPlayer {
   private _level: number = 1;
@@ -78,6 +80,8 @@ export class Player extends Sprite implements IPlayer {
   protected isMoving: boolean = false;
 
   private assistant: Nullable<IAssistant> = null;
+  private calmEndTimestamp: number = 0;
+  public damage: Nullable<number> = 10000;
 
   constructor(scene: IWorld, data: PlayerData) {
     super(scene, {
@@ -90,7 +94,6 @@ export class Player extends Sprite implements IPlayer {
     this.registerKeyboard();
     this.registerAnimations();
 
-    // this.addAssistant();
 
     this.body.setCircle(3, 5, 10);
     this.setScale(2.0);

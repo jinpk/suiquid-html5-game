@@ -18,7 +18,7 @@ export const LEVEL_MAP_SIZE = (() => {
   switch (getPerformance()) {
     case PerformanceLevel.HIGH: return 110;
     case PerformanceLevel.MEDIUM: return 100;
-    default: return 90;
+    default: return 200;
   }
 })();
 export const LEVEL_MAP_HEIGHT = 4;
